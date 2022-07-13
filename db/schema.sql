@@ -21,6 +21,6 @@ CREATE TABLE employee (
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR (30) NOT NULL,
   role_id INTEGER (10) NOT NULL,
-  INDEX role_ind (role_id),
+  manager_id INT,
 
 );
