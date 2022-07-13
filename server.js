@@ -1,29 +1,21 @@
-const express = require('express');
-
+const inquirer = require('inquirer');
 const mysql = require('mysql2');
+const consoleTable = require('console.table');
 
-
-const PORT = process.env.PORT || 3001;
-const app = express();
-
-
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
 
 const db = mysql.createConnection(
   {
     host: 'localhost',
-
     user: 'root',
-
     password: '',
-    database: ''
+    database: 'employee_db'
   },
   console.log(`Connected to the employee_db database.`)
 );
 
+
 function promptQuestion() {
-  prompt([
+  inquirer.prompt([
     {
       type: "list",
       name: "choice",
@@ -31,18 +23,43 @@ function promptQuestion() {
       choices: ["View all departments",
         "View all roles",
         "View all employees",
-        "View all managers",
+        "Add a department",
         "Add a role",
-        "Add a employee",
-        "Add a manager",
-        "Update an employee",
-        "Delete a employee",
+        "Add an employee",
+        "Update an employee role",
         "Exit"
       ]
     }
   ])
 
-    .then
+    .then((respose) => {
+      switch (response.choice) {
+        case "View all departments":
+          viewDepartment();
+          break;
+        case "View all roles":
+          viewRoles();
+          break;
+        case "View all employees":
+          viewEmployees();
+          break;
+        case "Add a department":
+          addDepartment();
+          break;
+        case "Add a role":
+          addRole();
+          break;
+        case "Add an employee":
+          addEmployee();
+          break;
+        case "Update an employee role":
+          updateEmployee();
+          break;
+        case "Exit":
+          process.exit();
+
+      }
+    })
 }
 
 
@@ -58,11 +75,3 @@ function promptQuestion() {
 
 
 
-app.use((req, res) => {
-  res.status(404).end();
-});
-
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
