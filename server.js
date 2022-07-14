@@ -62,9 +62,7 @@ function promptQuestion() {
     })
 };
 
-function viewDepartment() {
-  db.promise().query()
-}
+
 
 
 
